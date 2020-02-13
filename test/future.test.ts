@@ -1,4 +1,4 @@
-import { Future } from '../src/csp-ts'
+import Future from '../src/future'
 
 test('failed future throws', async () => {
   const future = new Future()

@@ -6,7 +6,7 @@ interface ChannelEvents<T> {
 
 class Emitter<T> extends EventEmitter<ChannelEvents<T>> {}
 
-export class Channel<T> {
+export default class Channel<T> {
   private buffer: Array<T>
   private emitter: Emitter<T>
   private zero: T
@@ -44,24 +44,5 @@ export class Channel<T> {
     this.send(this.zero)
     this.buffer.length = 0
     this.closed = true
-  }
-}
-
-export class Future<L, R> {
-  private promise: Promise<R>
-  reject: (l: L) => void
-  resolve: (r: R) => void
-
-  constructor() {
-    this.resolve = (): void => undefined
-    this.reject = (): void => undefined
-    this.promise = new Promise((resolve, reject) => {
-      this.resolve = resolve
-      this.reject = reject
-    })
-  }
-
-  get(): Promise<R> {
-    return this.promise
   }
 }

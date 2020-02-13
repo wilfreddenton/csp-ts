@@ -1,4 +1,4 @@
-import { Channel } from '../src/csp-ts'
+import Channel from '../src/channel'
 
 test('receive from channel', async () => {
   const c = new Channel<number>(0)
