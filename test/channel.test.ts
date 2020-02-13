@@ -1,4 +1,4 @@
-import Channel from '../src/channel'
+import { Channel } from '../src/csp-ts'
 
 test('receive from channel', async () => {
   const c = new Channel<number>(0)
@@ -15,4 +15,9 @@ test('receive from channel', async () => {
   c.close()
   expect(await c.receive()).toBe(0)
   expect(await c.receive()).toBe(0)
+  try {
+    c.send(4)
+  } catch (e) {
+    expect(e).toStrictEqual(new Error('send on closed channel'))
+  }
 })
