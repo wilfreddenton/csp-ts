@@ -1,0 +1,112 @@
+{
+  "name": "csp-ts",
+  "version": "0.1.0",
+  "description": "experimental csp implementation",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint --ignore-path .gitignore src/**/* test/**/*",
+    "fmt": "prettier --write src/**/* test/**/*",
+    "fmt-file": "prettier --write",
+    "docs": "typedoc --tsconfig tsconfig.json",
+    "build": "tsc -p ./tsconfig.build.json",
+    "watch": "nodemon --watch src --watch test -e ts -x \"npm run build && npm test\"",
+    "watch:test": "nodemon --watch src --watch test -e ts -x \"npm test\"",
+    "watch:build": "nodemon --watch src --watch test -e ts -x \"npm run build\""
+  },
+  "keywords": [
+    "async",
+    "concurrency",
+    "csp",
+    "typescript"
+  ],
+  "author": "Wilfred Denton <dentonw3@gmail.com> (https://unsafe-perform.io/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "@types/node": "^13.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "declaration-bundler-webpack-plugin": "^1.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^6.3.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
+    "react": "^16.12.0",
+    "ts-jest": "^25.1.0",
+    "typedoc": "^0.16.9",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "eventemitter3": "^4.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "pretty": true
+        }
+      }
+    }
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "airbnb-typescript",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/semi": [
+        2,
+        "never"
+      ],
+      "@typescript-eslint/camelcase": 1,
+      "@typescript-eslint/member-delimiter-style": 0,
+      "no-await-in-loop": 0,
+      "lines-between-class-members": 0,
+      "max-classes-per-file": 0,
+      "max-len": [
+        2,
+        108,
+        2
+      ],
+      "no-case-declarations": 0,
+      "object-curly-newline": 0,
+      "dot-notation": 0
+    }
+  },
+  "prettier": {
+    "printWidth": 108,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always",
+    "requirePragma": false,
+    "insertPragma": false,
+    "proseWrap": "always"
+  },
+  "typedocOptions": {
+    "inputFiles": [
+      "./src"
+    ],
+    "mode": "files",
+    "out": "docs"
+  }
+}

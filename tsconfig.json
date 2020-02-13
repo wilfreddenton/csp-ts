@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./lib/",
+    "sourceMap": true,
+    "module": "es6",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "declaration": true
+  },
+  "include": ["./src", "./test"],
+  "typedocOptions": {
+    "inputFiles": ["./src"],
+    "mode": "file",
+    "out": "docs"
+  }
+}
