@@ -4,6 +4,7 @@
   "description": "experimental csp implementation",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "files": ["lib"],
   "scripts": {
     "test": "jest",
     "lint": "eslint --ignore-path .gitignore src/**/* test/**/*",
