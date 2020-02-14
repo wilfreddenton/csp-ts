@@ -1,28 +1,18 @@
-import { EventEmitter } from 'eventemitter3'
-
-interface ChannelEvents<T> {
-  send: [T]
-}
-
-class Emitter<T> extends EventEmitter<ChannelEvents<T>> {}
-
 export default class Channel<T> {
-  private buffer: Array<T>
-  private emitter: Emitter<T>
-  private zero: T
+  private buffer: Array<T> = []
+  private waiters: Array<(t: T) => void> = []
   private closed = false
+  private zero: T
 
   constructor(zero: T) {
-    this.buffer = []
-    this.emitter = new Emitter<T>()
     this.zero = zero
   }
 
   send(item: T): void {
     if (this.closed) {
       throw new Error('send on closed channel')
-    } else if (this.emitter.listenerCount('send')) {
-      this.emitter.emit('send', item)
+    } else if (this.waiters.length) {
+      this.waiters.shift()!(item)
     } else {
       this.buffer.push(item)
     }
@@ -35,14 +25,16 @@ export default class Channel<T> {
       } else if (this.buffer.length) {
         resolve(this.buffer.shift())
       } else {
-        this.emitter.once('send', (item) => resolve(item))
+        this.waiters.push(resolve)
       }
     })
   }
 
   close(): void {
-    this.send(this.zero)
-    this.buffer.length = 0
     this.closed = true
+    this.buffer.length = 0
+    while (this.waiters.length) {
+      this.waiters.shift()!(this.zero)
+    }
   }
 }

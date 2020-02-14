@@ -1,6 +1,6 @@
 {
   "name": "csp-ts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "experimental csp implementation",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -53,9 +53,7 @@
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
   },
-  "dependencies": {
-    "eventemitter3": "^4.0.0"
-  },
+  "dependencies": {},
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
