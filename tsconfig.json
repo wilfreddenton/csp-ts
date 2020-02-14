@@ -9,7 +9,7 @@
     "inlineSourceMap": true,
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": ["es6"],
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
