@@ -1,4 +1,4 @@
-import Channel from './channel'
+import { BufferedChannel, Channel } from './channel'
 import Future from './future'
 
-export { Channel, Future }
+export { BufferedChannel, Channel, Future }

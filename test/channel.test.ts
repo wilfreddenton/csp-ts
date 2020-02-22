@@ -1,23 +1,19 @@
-import Channel from '../src/channel'
+import { BufferedChannel } from '../src/channel'
 
 test('receive from channel', async () => {
-  const c = new Channel<number>(0)
+  const c = new BufferedChannel<number>(0)
 
-  c.send(1)
-  c.send(2)
+  await c.send(1)
+  await c.send(2)
   expect(await c.receive()).toBe(1)
   expect(await c.receive()).toBe(2)
 
   const p = c.receive()
-  c.send(3)
+  await c.send(3)
   expect(await p).toBe(3)
 
   c.close()
   expect(await c.receive()).toBe(0)
   expect(await c.receive()).toBe(0)
-  try {
-    c.send(4)
-  } catch (e) {
-    expect(e).toStrictEqual(new Error('send on closed channel'))
-  }
+  expect(c.send(4)).rejects.toThrow('send on closed channel')
 })
