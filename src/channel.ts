@@ -1,3 +1,5 @@
+import { const_ } from 'protolude'
+
 class BufferedChannel<T> {
   private buffer: { item: T; resolveSender?: () => void }[] = []
   private waiters: ((t: T) => void)[] = []
@@ -13,17 +15,17 @@ class BufferedChannel<T> {
   send(item: T): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.closed) {
-        reject(Error('send on closed channel'))
+        reject(new Error('send on closed channel'))
       } else if (this.waiters.length) {
         resolve(this.waiters.shift()!(item))
       } else {
-        if (this.slotsRemaining) {
-          this.slotsRemaining -= 1
-          this.buffer.push({ item })
-          resolve()
+        if (this.slotsRemaining > 0) {
+          resolve(const_(undefined, this.buffer.push({ item })))
         } else {
           this.buffer.push({ item, resolveSender: resolve })
         }
+
+        this.slotsRemaining -= 1
       }
     })
   }
@@ -33,12 +35,10 @@ class BufferedChannel<T> {
       if (this.closed) {
         resolve(this.zero)
       } else if (this.buffer.length) {
-        this.slotsRemaining += 1
         const { item, resolveSender } = this.buffer.shift()!
-        if (resolveSender !== undefined) {
-          resolveSender()
-        }
+        if (resolveSender !== undefined) resolveSender()
         resolve(item)
+        this.slotsRemaining += 1
       } else {
         this.waiters.push(resolve)
       }
@@ -46,16 +46,14 @@ class BufferedChannel<T> {
   }
 
   close(): void {
-    this.closed = true
     this.buffer.forEach(({ resolveSender }) => {
-      if (resolveSender !== undefined) {
-        resolveSender()
-      }
+      if (resolveSender !== undefined) resolveSender()
     })
     this.buffer.length = 0
     while (this.waiters.length) {
       this.waiters.shift()!(this.zero)
     }
+    this.closed = true
   }
 }
 

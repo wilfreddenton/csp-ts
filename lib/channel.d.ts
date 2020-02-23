@@ -1,10 +1,15 @@
-export default class Channel<T> {
+declare class BufferedChannel<T> {
     private buffer;
     private waiters;
     private closed;
     private zero;
-    constructor(zero: T);
-    send(item: T): void;
+    private slotsRemaining;
+    constructor(zero: T, length?: number);
+    send(item: T): Promise<void>;
     receive(): Promise<T>;
     close(): void;
 }
+declare class Channel<T> extends BufferedChannel<T> {
+    constructor(zero: T);
+}
+export { BufferedChannel, Channel };
